@@ -1,4 +1,5 @@
 "use client";
+import UserCard from "@/components/UserCard";
 import { useEffect, useState } from "react";
 
 export default function UsersPage() {
@@ -35,11 +36,7 @@ export default function UsersPage() {
         <main>
             <h1>Users</h1>
             {users.map((user) => (
-                <div key={user.id}>
-                    <h3>{user.name}</h3>
-                    <p>{user.email}</p>
-                    <p>{user.company.name}</p>
-                </div>
+                <UserCard key={user.id} user={user} />
             ))}
         </main>
     );
