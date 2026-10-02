@@ -1,4 +1,5 @@
 import { favorites } from "@/lib/db";
+import { addFavorite } from "@/lib/services/favoriteService";
 
 export async function GET() {
   return Response.json(favorites);
@@ -6,22 +7,11 @@ export async function GET() {
 
 export async function POST(request) {
   const body = await request.json();
+  const result = addFavorite(body);
 
-  if (!body.id || !body.name) {
-    return Response.json(
-      { error: "id dan name wajib diisi" },
-      { status: 400 }
-    );
+  if (!result.success) {
+    return Response.json({ error: result.error }, { status: result.status });
   }
 
-  const alreadyExists = favorites.some((f) => f.id === body.id);
-  if (alreadyExists) {
-    return Response.json(
-      { error: "User ini sudah difavoritkan" },
-      { status: 400 }
-    );
-  }
-
-  favorites.push(body);
-  return Response.json(body, { status: 201 });
+  return Response.json(result.data, { status: result.status });
 }
