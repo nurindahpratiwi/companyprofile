@@ -12,7 +12,7 @@ export async function login(formData) {
     password: formData.get("password"),
   });
 
-  if (error) redirect("/error");
+  if (error) redirect(`/error?message=${encodeURIComponent(error.message)}`);
 
   revalidatePath("/", "layout");
   redirect("/");
@@ -29,7 +29,7 @@ export async function signup(formData) {
     },
   });
 
-  if (error) redirect("/error");
+  if (error) redirect(`/error?message=${encodeURIComponent(error.message)}`);
 
   revalidatePath("/", "layout");
   redirect("/");
