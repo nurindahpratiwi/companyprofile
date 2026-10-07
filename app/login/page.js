@@ -70,12 +70,14 @@ export default function LoginPage() {
 
               <div className="grid grid-cols-2 gap-3 pt-2">
                 <Button
+                  type="submit"
                   formAction={login}
                   className="rounded-full"
                 >
                   Login
                 </Button>
                 <Button
+                  type="submit"
                   formAction={signup}
                   variant="outline"
                   className="rounded-full"
