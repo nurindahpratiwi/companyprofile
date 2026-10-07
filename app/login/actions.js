@@ -24,6 +24,9 @@ export async function signup(formData) {
   const { error } = await supabase.auth.signUp({
     email: formData.get("email"),
     password: formData.get("password"),
+    options: {
+      data: { name: formData.get("name") }, // disimpan di user_metadata
+    },
   });
 
   if (error) redirect("/error");
