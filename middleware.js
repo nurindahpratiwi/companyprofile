@@ -19,7 +19,7 @@ export function middleware(request) {
   }
 
   // 3. Auth guard: halaman yang dilindungi butuh cookie "token"
-  const protectedPaths = ["/messages"]; // ganti sesuai halaman yang mau dilindungi
+  const protectedPaths = []; // ganti sesuai halaman yang mau dilindungi
 
   if (protectedPaths.includes(pathname)) {
     const token = request.cookies.get("token");
