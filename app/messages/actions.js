@@ -1,18 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { messages } from "@/lib/db";
+import { createClient } from "@/lib/supabase/server";
 
 export async function deleteMessageAction(formData) {
+  const supabase = await createClient();
   const id = Number(formData.get("id"));
 
-  const index = messages.findIndex((msg) => msg.id === id);
-  if (index === -1) {
-    return { success: false, error: "Pesan tidak ditemukan." };
-  }
+  const { error } = await supabase.from("messages").delete().eq("id", id);
 
-  // messages di-import sebagai binding read-only, jadi ubah isinya pakai splice
-  messages.splice(index, 1);
+  if (error) {
+    return { success: false, error: error.message };
+  }
 
   revalidatePath("/messages");
   return { success: true };
