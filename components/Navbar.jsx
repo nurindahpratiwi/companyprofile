@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
 import { useFavorite } from "@/context/FavoriteContext";
 
 const links = [
@@ -17,6 +18,7 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { isLoggedIn } = useAuth();
   const { favorites } = useFavorite();
 
   // Menu Favorite baru muncul setelah ada user yang difavoritkan
@@ -57,12 +59,26 @@ export default function Navbar() {
           })}
         </div>
 
-        <Link
-          href="/contact"
-          className={cn(buttonVariants({ size: "sm" }), "rounded-full")}
-        >
-          Get in touch
-        </Link>
+        {isLoggedIn ? (
+          <form action="/auth/signout" method="post">
+            <button
+              type="submit"
+              className={cn(
+                buttonVariants({ size: "sm", variant: "outline" }),
+                "rounded-full"
+              )}
+            >
+              Logout
+            </button>
+          </form>
+        ) : (
+          <Link
+            href="/login"
+            className={cn(buttonVariants({ size: "sm" }), "rounded-full")}
+          >
+            Login
+          </Link>
+        )}
       </nav>
     </header>
   );
